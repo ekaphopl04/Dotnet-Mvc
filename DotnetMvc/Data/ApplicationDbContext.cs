@@ -41,13 +41,9 @@ namespace DotnetMvc.Data
                     Author = "Frank Miller", 
                     Artist = "David Mazzucchelli",
                     Description = "Batman's early days fighting crime in Gotham City", 
-                    IssueNumber = 1,
-                    PublicationDate = new DateTime(1987, 2, 1),
-                    PageCount = 96,
                     Price = 19.99M, 
-                    IsAvailable = true, 
-                    CoverImageUrl = "/images/batman-year-one.jpg",
-                    CategoryId = 1 
+                    CategoryId = 1,
+                    CreatedDate = DateTime.Now
                 },
                 new ComicBook 
                 { 
@@ -56,13 +52,9 @@ namespace DotnetMvc.Data
                     Author = "Eiichiro Oda", 
                     Artist = "Eiichiro Oda",
                     Description = "Monkey D. Luffy and his pirate crew search for the greatest treasure, the One Piece", 
-                    IssueNumber = 1,
-                    PublicationDate = new DateTime(1997, 7, 22),
-                    PageCount = 208,
                     Price = 9.99M, 
-                    IsAvailable = true, 
-                    CoverImageUrl = "/images/one-piece.jpg",
-                    CategoryId = 2 
+                    CategoryId = 2,
+                    CreatedDate = DateTime.Now
                 },
                 new ComicBook 
                 { 
@@ -71,13 +63,9 @@ namespace DotnetMvc.Data
                     Author = "Brian K. Vaughan", 
                     Artist = "Fiona Staples",
                     Description = "Epic space opera/fantasy comic book series", 
-                    IssueNumber = 1,
-                    PublicationDate = new DateTime(2012, 3, 14),
-                    PageCount = 44,
                     Price = 14.99M, 
-                    IsAvailable = true, 
-                    CoverImageUrl = "/images/saga.jpg",
-                    CategoryId = 3 
+                    CategoryId = 3,
+                    CreatedDate = DateTime.Now
                 },
                 new ComicBook 
                 { 
@@ -86,13 +74,9 @@ namespace DotnetMvc.Data
                     Author = "Neil Gaiman", 
                     Artist = "Sam Kieth",
                     Description = "The Lord of Dreams has been imprisoned for decades and must reclaim his power", 
-                    IssueNumber = 1,
-                    PublicationDate = new DateTime(1989, 1, 1),
-                    PageCount = 40,
                     Price = 24.99M, 
-                    IsAvailable = true, 
-                    CoverImageUrl = "/images/sandman.jpg",
-                    CategoryId = 4 
+                    CategoryId = 4,
+                    CreatedDate = DateTime.Now
                 },
                 new ComicBook 
                 { 
@@ -101,13 +85,9 @@ namespace DotnetMvc.Data
                     Author = "Junji Ito", 
                     Artist = "Junji Ito",
                     Description = "A town is haunted by a supernatural spiral pattern", 
-                    IssueNumber = 1,
-                    PublicationDate = new DateTime(1998, 1, 1),
-                    PageCount = 200,
                     Price = 22.99M, 
-                    IsAvailable = true, 
-                    CoverImageUrl = "/images/uzumaki.jpg",
-                    CategoryId = 5 
+                    CategoryId = 5,
+                    CreatedDate = DateTime.Now
                 }
             );
         }
