@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 
 // Add Entity Framework Core services
 builder.Services.AddDbContext<DotnetMvc.Data.ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
