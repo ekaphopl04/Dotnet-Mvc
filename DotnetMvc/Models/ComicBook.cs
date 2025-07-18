@@ -7,17 +7,42 @@ namespace DotnetMvc.Models
     {
         public int Id { get; set; }
         
-        public string Title { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Title { get; set; } = string.Empty;
         
-        public string Description { get; set; }
+        [StringLength(500)]
+        public string? Description { get; set; }
         
-        public string Author { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Author { get; set; } = string.Empty;
         
-        public string Artist { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Artist { get; set; } = string.Empty;
         
+        [DataType(DataType.Date)]
+        public DateTime? PublicationDate { get; set; }
+        
+        [Range(0, 10000)]
+        public int? PageCount { get; set; }
+        
+        [Required]
+        [DataType(DataType.Currency)]
+        [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value")]
         public decimal Price { get; set; }
         
+        public bool IsAvailable { get; set; } = true;
+        
+        [StringLength(500)]
+        public string? CoverImageUrl { get; set; }
+        
+        [Required]
         public int CategoryId { get; set; }
+        
+        // Navigation property
+        public virtual Category? Category { get; set; }
         
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }

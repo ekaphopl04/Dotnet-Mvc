@@ -53,8 +53,8 @@
                                 <label>Availability</label>
                                 <select name="isAvailable" class="form-control">
                                     <option value="">All Items</option>
-                                    <option value="true" @(ViewData["CurrentAvailability"]?.ToString() == "True" ? "selected" : "")>Available Only</option>
-                                    <option value="false" @(ViewData["CurrentAvailability"]?.ToString() == "False" ? "selected" : "")>Unavailable Only</option>
+                                    <option value="true" selected="@(ViewData["CurrentAvailability"]?.ToString() == "True")">Available Only</option>
+                                    <option value="false" selected="@(ViewData["CurrentAvailability"]?.ToString() == "False")">Unavailable Only</option>
                                 </select>
                             </div>
                         </div>
@@ -76,14 +76,14 @@
                             <div class="form-group mb-3">
                                 <label>Sort By</label>
                                 <select name="sortOrder" class="form-control">
-                                    <option value="" @(ViewData["CurrentSort"]?.ToString() == "" ? "selected" : "")>Title (A-Z)</option>
-                                    <option value="title_desc" @(ViewData["CurrentSort"]?.ToString() == "title_desc" ? "selected" : "")>Title (Z-A)</option>
-                                    <option value="Author" @(ViewData["CurrentSort"]?.ToString() == "Author" ? "selected" : "")>Author (A-Z)</option>
-                                    <option value="author_desc" @(ViewData["CurrentSort"]?.ToString() == "author_desc" ? "selected" : "")>Author (Z-A)</option>
-                                    <option value="Price" @(ViewData["CurrentSort"]?.ToString() == "Price" ? "selected" : "")>Price (Low-High)</option>
-                                    <option value="price_desc" @(ViewData["CurrentSort"]?.ToString() == "price_desc" ? "selected" : "")>Price (High-Low)</option>
-                                    <option value="Date" @(ViewData["CurrentSort"]?.ToString() == "Date" ? "selected" : "")>Date Added (Old-New)</option>
-                                    <option value="date_desc" @(ViewData["CurrentSort"]?.ToString() == "date_desc" ? "selected" : "")>Date Added (New-Old)</option>
+                                    <option value="" selected="@(ViewData["CurrentSort"]?.ToString() == "")">Title (A-Z)</option>
+                                    <option value="title_desc" selected="@(ViewData["CurrentSort"]?.ToString() == "title_desc")">Title (Z-A)</option>
+                                    <option value="Author" selected="@(ViewData["CurrentSort"]?.ToString() == "Author")">Author (A-Z)</option>
+                                    <option value="author_desc" selected="@(ViewData["CurrentSort"]?.ToString() == "author_desc")">Author (Z-A)</option>
+                                    <option value="Price" selected="@(ViewData["CurrentSort"]?.ToString() == "Price")">Price (Low-High)</option>
+                                    <option value="price_desc" selected="@(ViewData["CurrentSort"]?.ToString() == "price_desc")">Price (High-Low)</option>
+                                    <option value="Date" selected="@(ViewData["CurrentSort"]?.ToString() == "Date")">Date Added (Old-New)</option>
+                                    <option value="date_desc" selected="@(ViewData["CurrentSort"]?.ToString() == "date_desc")">Date Added (New-Old)</option>
                                 </select>
                             </div>
                         </div>

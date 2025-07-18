@@ -18,11 +18,12 @@ namespace DotnetMvc.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure relationships
+            // Configure relationships properly
             modelBuilder.Entity<ComicBook>()
-                .HasOne<Category>()
+                .HasOne(c => c.Category)
                 .WithMany(c => c.ComicBooks)
-                .HasForeignKey(p => p.CategoryId);
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Seed some initial data for comic book categories
             modelBuilder.Entity<Category>().HasData(
@@ -33,6 +34,7 @@ namespace DotnetMvc.Data
                 new Category { Id = 5, Name = "Horror", Description = "Comic books with horror and supernatural themes" }
             );
 
+            // Seed comic book data with static dates to avoid non-deterministic model issues
             modelBuilder.Entity<ComicBook>().HasData(
                 new ComicBook 
                 { 
@@ -42,8 +44,9 @@ namespace DotnetMvc.Data
                     Artist = "David Mazzucchelli",
                     Description = "Batman's early days fighting crime in Gotham City", 
                     Price = 19.99M, 
+                    IsAvailable = true,
                     CategoryId = 1,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2025, 1, 1)
                 },
                 new ComicBook 
                 { 
@@ -53,8 +56,9 @@ namespace DotnetMvc.Data
                     Artist = "Eiichiro Oda",
                     Description = "Monkey D. Luffy and his pirate crew search for the greatest treasure, the One Piece", 
                     Price = 9.99M, 
+                    IsAvailable = true,
                     CategoryId = 2,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2025, 1, 1)
                 },
                 new ComicBook 
                 { 
@@ -64,8 +68,9 @@ namespace DotnetMvc.Data
                     Artist = "Fiona Staples",
                     Description = "Epic space opera/fantasy comic book series", 
                     Price = 14.99M, 
+                    IsAvailable = true,
                     CategoryId = 3,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2025, 1, 1)
                 },
                 new ComicBook 
                 { 
@@ -75,8 +80,9 @@ namespace DotnetMvc.Data
                     Artist = "Sam Kieth",
                     Description = "The Lord of Dreams has been imprisoned for decades and must reclaim his power", 
                     Price = 24.99M, 
+                    IsAvailable = true,
                     CategoryId = 4,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2025, 1, 1)
                 },
                 new ComicBook 
                 { 
@@ -86,8 +92,9 @@ namespace DotnetMvc.Data
                     Artist = "Junji Ito",
                     Description = "A town is haunted by a supernatural spiral pattern", 
                     Price = 22.99M, 
+                    IsAvailable = true,
                     CategoryId = 5,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = new DateTime(2025, 1, 1)
                 }
             );
         }
