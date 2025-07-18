@@ -1,235 +1,269 @@
 @model IEnumerable<DotnetMvc.Models.ComicBook>
 
 @{
-    ViewData["Title"] = "Comic Books";
+    ViewData["Title"] = "คอลเลกชันการ์ตูน";
 }
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Comic Books</h1>
-        <div class="btn-group">
-            <a asp-action="Create" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Create New
-            </a>
-            <a asp-action="GroupedByCategory" class="btn btn-info">
-                <i class="bi bi-collection"></i> View by Category
-            </a>
+<!-- Hero Section -->
+<div class="glass-card mb-5 position-relative overflow-hidden">
+    <div class="gradient-primary position-absolute w-100 h-100 opacity-75"></div>
+    <div class="container py-5 position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-stars me-4 icon-3d floating-animation" style="font-size: 4rem; color: #ffd700;"></i>
+                    <div>
+                        <h1 class="display-3 text-white brand-font fw-bold mb-2">COMIC UNIVERSE</h1>
+                        <p class="lead text-white-75 mb-0">🎨 จัดการคอลเลกชันการ์ตูนของคุณด้วยเทคโนโลยีที่ทันสมัย</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge gradient-success px-3 py-2">🔍 ค้นหาขั้นสูง</span>
+                    <span class="badge gradient-warning px-3 py-2">📊 วิเคราะห์ข้อมูล</span>
+                    <span class="badge gradient-secondary px-3 py-2">🎯 จัดกลุ่มอัจฉริยะ</span>
+                </div>
             </div>
-            <div class="col-md-4 text-end">
-                <a asp-action="Create" class="btn btn-light btn-lg btn-custom shadow">
-                    <i class="bi bi-plus-circle me-2"></i>Add New Comic
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Quick Stats -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card stats-card text-center">
-            <div class="card-body">
-                <i class="bi bi-collection feature-icon text-white"></i>
-                <h4 class="mt-2">@ViewData["TotalItems"]</h4>
-                <p class="mb-0">Total Comics</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-success text-white text-center">
-            <div class="card-body">
-                <i class="bi bi-funnel feature-icon text-white"></i>
-                <h4 class="mt-2">Advanced</h4>
-                <p class="mb-0">Filtering</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-info text-white text-center">
-            <div class="card-body">
-                <i class="bi bi-sort-down feature-icon text-white"></i>
-                <h4 class="mt-2">Smart</h4>
-                <p class="mb-0">Sorting</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-warning text-white text-center">
-            <div class="card-body">
-                <i class="bi bi-graph-up feature-icon text-white"></i>
-                <h4 class="mt-2">@ViewData["TotalPages"]</h4>
-                <p class="mb-0">Pages</p>
+            <div class="col-lg-4 text-end">
+                <div class="d-grid gap-3">
+                    <a asp-action="Create" class="btn btn-glass btn-lg pulse-animation">
+                        <i class="bi bi-plus-circle-fill me-2"></i>เพิ่มการ์ตูนใหม่
+                    </a>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a asp-action="GroupedByCategory" class="btn btn-glass">
+                            <i class="bi bi-collection-fill me-1"></i>จัดกลุ่ม
+                        </a>
+                        <a asp-action="Statistics" class="btn btn-glass">
+                            <i class="bi bi-graph-up-arrow me-1"></i>สถิติ
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Advanced Filtering and Sorting Form -->
-<div class="card shadow-sm mb-4">
-    <div class="card-header bg-gradient" style="background: linear-gradient(45deg, #007bff, #6610f2);">
-        <h5 class="mb-0 text-white">
-            <i class="bi bi-funnel me-2"></i>Advanced Filters & Sorting
-            <button class="btn btn-sm btn-outline-light float-end" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true">
+<!-- Quick Stats Dashboard -->
+<div class="row g-4 mb-5">
+    <div class="col-lg-3 col-md-6">
+        <div class="glass-card text-center p-4 card-hover">
+            <div class="gradient-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                <i class="bi bi-collection-fill text-white" style="font-size: 2rem;"></i>
+            </div>
+            <h2 class="text-white fw-bold mb-1">@ViewData["TotalItems"]</h2>
+            <p class="text-white-50 mb-0">📚 การ์ตูนทั้งหมด</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="glass-card text-center p-4 card-hover">
+            <div class="gradient-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                <i class="bi bi-funnel-fill text-white" style="font-size: 2rem;"></i>
+            </div>
+            <h2 class="text-white fw-bold mb-1">ขั้นสูง</h2>
+            <p class="text-white-50 mb-0">🔍 ระบบกรอง</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="glass-card text-center p-4 card-hover">
+            <div class="gradient-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                <i class="bi bi-sort-down-alt text-white" style="font-size: 2rem;"></i>
+            </div>
+            <h2 class="text-white fw-bold mb-1">อัจฉริยะ</h2>
+            <p class="text-white-50 mb-0">🎯 การเรียงลำดับ</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="glass-card text-center p-4 card-hover">
+            <div class="gradient-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                <i class="bi bi-file-earmark-text-fill text-white" style="font-size: 2rem;"></i>
+            </div>
+            <h2 class="text-white fw-bold mb-1">@ViewData["TotalPages"]</h2>
+            <p class="text-white-50 mb-0">📄 หน้าทั้งหมด</p>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Search & Filter Panel -->
+<div class="glass-card mb-5">
+    <div class="gradient-primary p-4 rounded-top">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-search-heart me-3" style="font-size: 2rem; color: #ffd700;"></i>
+                <div>
+                    <h4 class="text-white mb-1 fw-bold">🔍 ค้นหาและกรองข้อมูล</h4>
+                    <p class="text-white-75 mb-0">ค้นหาการ์ตูนที่คุณต้องการด้วยระบบขั้นสูง</p>
+                </div>
+            </div>
+            <button class="btn btn-glass" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true">
                 <i class="bi bi-chevron-down"></i>
             </button>
-        </h5>
+        </div>
     </div>
     <div class="collapse show" id="filterCollapse">
-        <div class="card-body bg-light">
+        <div class="p-4">
             <form method="get">
-                <div class="row g-3">
-                    <!-- Search -->
-                    <div class="col-md-4">
-                        <label for="searchString" class="form-label fw-bold">
-                            <i class="bi bi-search me-1"></i>Search
+                <div class="row g-4">
+                    <!-- Search Input -->
+                    <div class="col-lg-4 col-md-6">
+                        <label for="searchString" class="form-label text-white fw-bold mb-3">
+                            <i class="bi bi-search-heart me-2 text-warning"></i>🔍 ค้นหาการ์ตูน
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control" id="searchString" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Search by title, author, artist..." />
+                        <div class="position-relative">
+                            <input type="text" class="form-control glass-input" id="searchString" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="ชื่อเรื่อง, ผู้แต่ง, นักวาด..." style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding-left: 50px; border-radius: 25px; height: 50px;" />
+                            <i class="bi bi-search position-absolute text-white-50" style="left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem;"></i>
                         </div>
                     </div>
                     <!-- Category Filter -->
-                    <div class="col-md-3">
-                        <label for="categoryId" class="form-label fw-bold">
-                            <i class="bi bi-collection me-1"></i>Category
+                    <div class="col-lg-3 col-md-6">
+                        <label for="categoryId" class="form-label text-white fw-bold mb-3">
+                            <i class="bi bi-collection-fill me-2 text-info"></i>📂 หมวดหมู่
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-collection"></i></span>
-                            <select class="form-select" id="categoryId" name="categoryId">
-                                <option value="">All Categories</option>
+                        <div class="position-relative">
+                            <select class="form-select glass-input" id="categoryId" name="categoryId" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding-left: 50px; border-radius: 25px; height: 50px;">
+                                <option value="">🌟 ทุกหมวดหมู่</option>
                                 @foreach (var category in ViewData["Categories"] as SelectList)
                                 {
                                     @if (category.Value == ViewData["CurrentCategory"]?.ToString())
                                     {
                                         <option value="@category.Value" selected>
-                                            @category.Text
+                                            📚 @category.Text
                                         </option>
                                     }
                                     else
                                     {
                                         <option value="@category.Value">
-                                            @category.Text
+                                            📚 @category.Text
                                         </option>
                                     }
                                 }
                             </select>
+                            <i class="bi bi-collection-fill position-absolute text-white-50" style="left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem;"></i>
                         </div>
                     </div>
-                    <!-- Min Price -->
-                    <div class="col-md-2">
-                        <label for="minPrice" class="form-label fw-bold">
-                            <i class="bi bi-currency-dollar me-1"></i>Min Price
+                    <!-- Price Range -->
+                    <div class="col-lg-5 col-md-12">
+                        <label class="form-label text-white fw-bold mb-3">
+                            <i class="bi bi-currency-dollar me-2 text-success"></i>💰 ช่วงราคา
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                            <input type="number" class="form-control" id="minPrice" name="minPrice" value="@ViewData["CurrentMinPrice"]" step="0.01" min="0" placeholder="0.00" />
-                        </div>
-                    </div>
-                    <!-- Max Price -->
-                    <div class="col-md-2">
-                        <label for="maxPrice" class="form-label fw-bold">
-                            <i class="bi bi-currency-dollar me-1"></i>Max Price
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                            <input type="number" class="form-control" id="maxPrice" name="maxPrice" value="@ViewData["CurrentMaxPrice"]" step="0.01" min="0" placeholder="999.99" />
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="position-relative">
+                                    <input type="number" class="form-control glass-input" id="minPrice" name="minPrice" value="@ViewData["CurrentMinPrice"]" step="0.01" min="0" placeholder="ราคาต่ำสุด" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding-left: 45px; border-radius: 25px; height: 50px;" />
+                                    <i class="bi bi-currency-dollar position-absolute text-white-50" style="left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem;"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="position-relative">
+                                    <input type="number" class="form-control glass-input" id="maxPrice" name="maxPrice" value="@ViewData["CurrentMaxPrice"]" step="0.01" min="0" placeholder="ราคาสูงสุด" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding-left: 45px; border-radius: 25px; height: 50px;" />
+                                    <i class="bi bi-currency-dollar position-absolute text-white-50" style="left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem;"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Sort Order -->
-                    <div class="col-md-3">
-                        <label for="sortOrder" class="form-label fw-bold">
-                            <i class="bi bi-sort-down me-1"></i>Sort By
+                    <div class="col-lg-12">
+                        <label class="form-label text-white fw-bold mb-3">
+                            <i class="bi bi-sort-down-alt me-2 text-warning"></i>🎯 การเรียงลำดับ
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-                            <select class="form-select" id="sortOrder" name="sortOrder">
-                                @{
-                                    var currentSort = ViewData["CurrentSort"]?.ToString();
-                                }
+                        <div class="row g-2">
+                            @{
+                                var currentSort = ViewData["CurrentSort"]?.ToString();
+                            }
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (string.IsNullOrEmpty(currentSort))
                                 {
-                                    <option value="" selected>📚 Title (A-Z)</option>
+                                    <button type="submit" name="sortOrder" value="" class="btn btn-glass w-100 active">
+                                        📚 ชื่อ A-Z
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="">📚 Title (A-Z)</option>
+                                    <button type="submit" name="sortOrder" value="" class="btn btn-glass w-100">
+                                        📚 ชื่อ A-Z
+                                    </button>
                                 }
-                                
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (currentSort == "title_desc")
                                 {
-                                    <option value="title_desc" selected>📚 Title (Z-A)</option>
+                                    <button type="submit" name="sortOrder" value="title_desc" class="btn btn-glass w-100 active">
+                                        📚 ชื่อ Z-A
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="title_desc">📚 Title (Z-A)</option>
+                                    <button type="submit" name="sortOrder" value="title_desc" class="btn btn-glass w-100">
+                                        📚 ชื่อ Z-A
+                                    </button>
                                 }
-                                
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (currentSort == "Author")
                                 {
-                                    <option value="Author" selected>✍️ Author (A-Z)</option>
+                                    <button type="submit" name="sortOrder" value="Author" class="btn btn-glass w-100 active">
+                                        ✍️ ผู้แต่ง A-Z
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="Author">✍️ Author (A-Z)</option>
+                                    <button type="submit" name="sortOrder" value="Author" class="btn btn-glass w-100">
+                                        ✍️ ผู้แต่ง A-Z
+                                    </button>
                                 }
-                                
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (currentSort == "author_desc")
                                 {
-                                    <option value="author_desc" selected>✍️ Author (Z-A)</option>
+                                    <button type="submit" name="sortOrder" value="author_desc" class="btn btn-glass w-100 active">
+                                        ✍️ ผู้แต่ง Z-A
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="author_desc">✍️ Author (Z-A)</option>
+                                    <button type="submit" name="sortOrder" value="author_desc" class="btn btn-glass w-100">
+                                        ✍️ ผู้แต่ง Z-A
+                                    </button>
                                 }
-                                
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (currentSort == "Price")
                                 {
-                                    <option value="Price" selected>💰 Price (Low-High)</option>
+                                    <button type="submit" name="sortOrder" value="Price" class="btn btn-glass w-100 active">
+                                        💰 ราคา ต่ำ-สูง
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="Price">💰 Price (Low-High)</option>
+                                    <button type="submit" name="sortOrder" value="Price" class="btn btn-glass w-100">
+                                        💰 ราคา ต่ำ-สูง
+                                    </button>
                                 }
-                                
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6">
                                 @if (currentSort == "price_desc")
                                 {
-                                    <option value="price_desc" selected>💰 Price (High-Low)</option>
+                                    <button type="submit" name="sortOrder" value="price_desc" class="btn btn-glass w-100 active">
+                                        💰 ราคา สูง-ต่ำ
+                                    </button>
                                 }
                                 else
                                 {
-                                    <option value="price_desc">💰 Price (High-Low)</option>
+                                    <button type="submit" name="sortOrder" value="price_desc" class="btn btn-glass w-100">
+                                        💰 ราคา สูง-ต่ำ
+                                    </button>
                                 }
-                                
-                                @if (currentSort == "Date")
-                                {
-                                    <option value="Date" selected>📅 Date (Old-New)</option>
-                                }
-                                else
-                                {
-                                    <option value="Date">📅 Date (Old-New)</option>
-                                }
-                                
-                                @if (currentSort == "date_desc")
-                                {
-                                    <option value="date_desc" selected>📅 Date (New-Old)</option>
-                                }
-                                else
-                                {
-                                    <option value="date_desc">📅 Date (New-Old)</option>
-                                }
-                            </select>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Action Buttons -->
-                    <div class="col-md-2">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-custom">
-                                <i class="bi bi-funnel me-1"></i>Apply
-                            </button>
-                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-arrow-clockwise me-1"></i>Reset
-                            </a>
+                        <div class="row g-2 mt-3">
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn gradient-primary w-100 py-3 fw-bold">
+                                    <i class="bi bi-search me-2"></i>🔍 ค้นหาและกรอง
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <a href="@Url.Action("Index")" class="btn btn-glass w-100 py-3 fw-bold">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>🔄 รีเซ็ตทั้งหมด
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -239,225 +273,202 @@
 </div>
 
 <!-- Results Summary -->
-<div class="row mb-3">
-    <div class="col-md-6">
-        <p class="text-muted">
-            Showing @Model.Count() of @ViewData["TotalItems"] comic books
-            @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()))
-            {
-                <span>for "@ViewData["CurrentFilter"]"</span>
-            }
-        </p>
-    </div>
-    <div class="col-md-6 text-end">
-        <small class="text-muted">Page @ViewData["CurrentPage"] of @ViewData["TotalPages"]</small>
+<div class="glass-card mb-4 p-4">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle-fill me-3 text-info" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="text-white mb-1">📊 ผลการค้นหา</h5>
+                    <p class="text-white-75 mb-0">
+                        แสดง @Model.Count() จากทั้งหมด @ViewData["TotalItems"] เล่ม
+                        @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()))
+                        {
+                            <span class="badge gradient-warning ms-2 px-2 py-1">🔍 "@ViewData["CurrentFilter"]"</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="d-flex align-items-center justify-content-end">
+                <i class="bi bi-file-earmark-text me-2 text-warning"></i>
+                <span class="text-white">หน้าที่ @ViewData["CurrentPage"] / @ViewData["TotalPages"]</span>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Comic Book List -->
+<!-- Comic Book Grid -->
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        <h4><i class="bi bi-info-circle"></i> No comic books found</h4>
-        <p>Try adjusting your search criteria or add new comic books.</p>
-        <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add Your First Comic Book
-        </a>
+    <div class="glass-card text-center py-5">
+        <div class="mb-4">
+            <i class="bi bi-search-heart" style="font-size: 4rem; color: #ffd700;"></i>
+        </div>
+        <h3 class="text-white mb-3">🔍 ไม่พบการ์ตูนที่ค้นหา</h3>
+        <p class="text-white-75 mb-4">ลองปรับเงื่อนไขการค้นหา หรือเพิ่มการ์ตูนใหม่</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a asp-action="Create" class="btn gradient-primary btn-lg px-4 py-3">
+                <i class="bi bi-plus-circle-fill me-2"></i>เพิ่มการ์ตูนแรก
+            </a>
+            <a href="@Url.Action("Index")" class="btn btn-glass btn-lg px-4 py-3">
+                <i class="bi bi-arrow-clockwise me-2"></i>รีเซ็ตการค้นหา
+            </a>
+        </div>
     </div>
 }
 else
 {
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>
-                        <a asp-action="Index" 
-                           asp-route-sortOrder="@ViewData["TitleSortParm"]"
-                           asp-route-searchString="@ViewData["CurrentFilter"]"
-                           asp-route-categoryId="@ViewData["CurrentCategory"]"
-                           asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                           asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                           asp-route-isAvailable="@ViewData["CurrentAvailability"]"
-                           class="text-white text-decoration-none">
-                            Title 
-                            @if (ViewData["CurrentSort"]?.ToString() == "")
-                            {
-                                <i class="bi bi-arrow-up"></i>
-                            }
-                            else if (ViewData["CurrentSort"]?.ToString() == "title_desc")
-                            {
-                                <i class="bi bi-arrow-down"></i>
-                            }
-                        </a>
-                    </th>
-                    <th>
-                        <a asp-action="Index" 
-                           asp-route-sortOrder="@ViewData["AuthorSortParm"]"
-                           asp-route-searchString="@ViewData["CurrentFilter"]"
-                           asp-route-categoryId="@ViewData["CurrentCategory"]"
-                           asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                           asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                           asp-route-isAvailable="@ViewData["CurrentAvailability"]"
-                           class="text-white text-decoration-none">
-                            Author
-                            @if (ViewData["CurrentSort"]?.ToString() == "Author")
-                            {
-                                <i class="bi bi-arrow-up"></i>
-                            }
-                            else if (ViewData["CurrentSort"]?.ToString() == "author_desc")
-                            {
-                                <i class="bi bi-arrow-down"></i>
-                            }
-                        </a>
-                    </th>
-                    <th>Artist</th>
-                    <th>
-                        <a asp-action="Index" 
-                           asp-route-sortOrder="@ViewData["PriceSortParm"]"
-                           asp-route-searchString="@ViewData["CurrentFilter"]"
-                           asp-route-categoryId="@ViewData["CurrentCategory"]"
-                           asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                           asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                           asp-route-isAvailable="@ViewData["CurrentAvailability"]"
-                           class="text-white text-decoration-none">
-                            Price
-                            @if (ViewData["CurrentSort"]?.ToString() == "Price")
-                            {
-                                <i class="bi bi-arrow-up"></i>
-                            }
-                            else if (ViewData["CurrentSort"]?.ToString() == "price_desc")
-                            {
-                                <i class="bi bi-arrow-down"></i>
-                            }
-                        </a>
-                    </th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr class="align-middle">
-                        <td>
-                            <div class="d-flex align-items-center">
-                                @if (!string.IsNullOrEmpty(item.CoverImageUrl))
-                                {
-                                    <img src="@item.CoverImageUrl" alt="@item.Title" class="me-3 rounded" style="width: 50px; height: 70px; object-fit: cover;" />
-                                }
-                                else
-                                {
-                                    <div class="me-3 bg-secondary rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 70px;">
-                                        <i class="bi bi-book text-white"></i>
-                                    </div>
-                                }
-                                <div>
-                                    <strong>@item.Title</strong>
-                                    @if (!string.IsNullOrEmpty(item.Description))
-                                    {
-                                        <br><small class="text-muted">@(item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description)</small>
-                                    }
+    <!-- Modern Card Grid Layout -->
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="glass-card card-hover h-100 overflow-hidden">
+                    <!-- Cover Image -->
+                    <div class="position-relative">
+                        @if (!string.IsNullOrEmpty(item.CoverImageUrl))
+                        {
+                            <img src="@item.CoverImageUrl" alt="@item.Title" class="w-100" style="height: 250px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="w-100 gradient-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                                <div class="text-center">
+                                    <i class="bi bi-book text-white" style="font-size: 3rem;"></i>
+                                    <p class="text-white mt-2 mb-0">ไม่มีภาพปก</p>
                                 </div>
                             </div>
-                        </td>
-                        <td>
-                            <span class="fw-bold">@item.Author</span>
-                        </td>
-                        <td>
-                            <span class="text-muted">@item.Artist</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-success fs-6">$@item.Price.ToString("F2")</span>
-                        </td>
-                        <td>
-                            @if (item.Category != null)
-                            {
-                                <span class="badge bg-primary">@item.Category.Name</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">No Category</span>
-                            }
-                        </td>
-                        <td>
+                        }
+                        <!-- Status Badge -->
+                        <div class="position-absolute top-0 end-0 m-3">
                             @if (item.IsAvailable)
                             {
-                                <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Available</span>
+                                <span class="badge gradient-success px-3 py-2">
+                                    <i class="bi bi-check-circle-fill me-1"></i>พร้อมใช้
+                                </span>
                             }
                             else
                             {
-                                <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Unavailable</span>
+                                <span class="badge gradient-danger px-3 py-2">
+                                    <i class="bi bi-x-circle-fill me-1"></i>ไม่พร้อม
+                                </span>
                             }
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm" title="View Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        </div>
+                        <!-- Price Badge -->
+                        <div class="position-absolute bottom-0 start-0 m-3">
+                            <span class="badge gradient-warning px-3 py-2 fs-6">
+                                <i class="bi bi-currency-dollar me-1"></i>@item.Price.ToString("F2")
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Content -->
+                    <div class="p-4">
+                        <!-- Category -->
+                        @if (item.Category != null)
+                        {
+                            <span class="badge gradient-primary px-2 py-1 mb-2">
+                                <i class="bi bi-collection-fill me-1"></i>@item.Category.Name
+                            </span>
+                        }
+                        
+                        <!-- Title -->
+                        <h5 class="text-white fw-bold mb-2 lh-base">@item.Title</h5>
+                        
+                        <!-- Author & Artist -->
+                        <div class="mb-3">
+                            <p class="text-white-75 mb-1">
+                                <i class="bi bi-person-fill me-2 text-info"></i>ผู้แต่ง: @item.Author
+                            </p>
+                            @if (!string.IsNullOrEmpty(item.Artist))
+                            {
+                                <p class="text-white-50 mb-0">
+                                    <i class="bi bi-palette-fill me-2 text-warning"></i>นักวาด: @item.Artist
+                                </p>
+                            }
+                        </div>
+                        
+                        <!-- Description -->
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <p class="text-white-50 small mb-3 lh-base">
+                                @(item.Description.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
+                            </p>
+                        }
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-glass flex-fill" title="ดูรายละเอียด">
+                                <i class="bi bi-eye-fill me-1"></i>ดู
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn gradient-warning" title="แก้ไข">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn gradient-danger" title="ลบ">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 
-    <!-- Enhanced Pagination -->
+    <!-- Modern Pagination -->
     @if ((int)ViewData["TotalPages"] > 1)
     {
-        <nav aria-label="Comic books pagination" class="mt-4">
+        <div class="glass-card mt-5 p-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0 text-muted">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Showing page @ViewData["CurrentPage"] of @ViewData["TotalPages"] 
-                        (@ViewData["TotalItems"] total items)
-                    </p>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-collection-fill me-3 text-primary" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h6 class="text-white mb-1">📄 การแบ่งหน้า</h6>
+                            <p class="text-white-75 mb-0 small">
+                                หน้าที่ @ViewData["CurrentPage"] จาก @ViewData["TotalPages"] หน้า (ทั้งหมด @ViewData["TotalItems"] รายการ)
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <ul class="pagination justify-content-end mb-0">
+                    <div class="d-flex justify-content-end gap-2 flex-wrap">
                         @if ((int)ViewData["CurrentPage"] > 1)
                         {
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   asp-action="Index"
-                                   asp-route-page="1"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                                   asp-route-categoryId="@ViewData["CurrentCategory"]"
-                                   asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                                   asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                                   asp-route-isAvailable="@ViewData["CurrentAvailability"]">
-                                    <i class="bi bi-chevron-double-left"></i> First
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   asp-action="Index"
-                                   asp-route-page="@((int)ViewData["CurrentPage"] - 1)"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                                   asp-route-categoryId="@ViewData["CurrentCategory"]"
-                                   asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                                   asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                                   asp-route-isAvailable="@ViewData["CurrentAvailability"]">
-                                    <i class="bi bi-chevron-left"></i> Previous
-                                </a>
-                            </li>
+                            <a class="btn btn-glass" 
+                               asp-action="Index"
+                               asp-route-page="1"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-searchString="@ViewData["CurrentFilter"]"
+                               asp-route-categoryId="@ViewData["CurrentCategory"]"
+                               asp-route-minPrice="@ViewData["CurrentMinPrice"]"
+                               asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
+                               asp-route-isAvailable="@ViewData["CurrentAvailability"]">
+                                <i class="bi bi-chevron-double-left"></i> แรก
+                            </a>
+                            <a class="btn btn-glass" 
+                               asp-action="Index"
+                               asp-route-page="@((int)ViewData["CurrentPage"] - 1)"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-searchString="@ViewData["CurrentFilter"]"
+                               asp-route-categoryId="@ViewData["CurrentCategory"]"
+                               asp-route-minPrice="@ViewData["CurrentMinPrice"]"
+                               asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
+                               asp-route-isAvailable="@ViewData["CurrentAvailability"]">
+                                <i class="bi bi-chevron-left"></i> ก่อน
+                            </a>
                         }
 
                         @for (int i = Math.Max(1, (int)ViewData["CurrentPage"] - 2); i <= Math.Min((int)ViewData["TotalPages"], (int)ViewData["CurrentPage"] + 2); i++)
                         {
-                            <li class="page-item @(i == (int)ViewData["CurrentPage"] ? "active" : "")">
-                                <a class="page-link" 
+                            @if (i == (int)ViewData["CurrentPage"])
+                            {
+                                <span class="btn gradient-primary fw-bold">@i</span>
+                            }
+                            else
+                            {
+                                <a class="btn btn-glass" 
                                    asp-action="Index"
                                    asp-route-page="@i"
                                    asp-route-sortOrder="@ViewData["CurrentSort"]"
@@ -468,58 +479,102 @@ else
                                    asp-route-isAvailable="@ViewData["CurrentAvailability"]">
                                     @i
                                 </a>
-                            </li>
+                            }
                         }
 
                         @if ((int)ViewData["CurrentPage"] < (int)ViewData["TotalPages"])
                         {
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   asp-action="Index"
-                                   asp-route-page="@((int)ViewData["CurrentPage"] + 1)"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                                   asp-route-categoryId="@ViewData["CurrentCategory"]"
-                                   asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                                   asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                                   asp-route-isAvailable="@ViewData["CurrentAvailability"]">
-                                    Next <i class="bi bi-chevron-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   asp-action="Index"
-                                   asp-route-page="@ViewData["TotalPages"]"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                                   asp-route-categoryId="@ViewData["CurrentCategory"]"
-                                   asp-route-minPrice="@ViewData["CurrentMinPrice"]"
-                                   asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
-                                   asp-route-isAvailable="@ViewData["CurrentAvailability"]">
-                                    Last <i class="bi bi-chevron-double-right"></i>
-                                </a>
-                            </li>
+                            <a class="btn btn-glass" 
+                               asp-action="Index"
+                               asp-route-page="@((int)ViewData["CurrentPage"] + 1)"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-searchString="@ViewData["CurrentFilter"]"
+                               asp-route-categoryId="@ViewData["CurrentCategory"]"
+                               asp-route-minPrice="@ViewData["CurrentMinPrice"]"
+                               asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
+                               asp-route-isAvailable="@ViewData["CurrentAvailability"]">
+                                ถัดไป <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <a class="btn btn-glass" 
+                               asp-action="Index"
+                               asp-route-page="@ViewData["TotalPages"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-searchString="@ViewData["CurrentFilter"]"
+                               asp-route-categoryId="@ViewData["CurrentCategory"]"
+                               asp-route-minPrice="@ViewData["CurrentMinPrice"]"
+                               asp-route-maxPrice="@ViewData["CurrentMaxPrice"]"
+                               asp-route-isAvailable="@ViewData["CurrentAvailability"]">
+                                สุดท้าย <i class="bi bi-chevron-double-right"></i>
+                            </a>
                         }
-                    </ul>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
     }
 }
 
-<!-- Quick Action Buttons -->
-<div class="row mt-4">
-    <div class="col-12 text-center">
-        <div class="btn-group" role="group">
-            <a asp-action="Create" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle me-2"></i>Add New Comic
+<!-- Quick Action Center -->
+<div class="glass-card mt-5 p-5 text-center">
+    <div class="mb-4">
+        <i class="bi bi-lightning-charge-fill floating-animation" style="font-size: 3rem; color: #ffd700;"></i>
+    </div>
+    <h3 class="text-white mb-3 brand-font">⚡ เมนูด่วน</h3>
+    <p class="text-white-75 mb-4">เข้าถึงฟีเจอร์ขั้นสูงของ Comic Universe ได้อย่างรวดเร็ว</p>
+    <div class="row g-3 justify-content-center">
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="Create" class="btn gradient-primary w-100 py-3 card-hover">
+                <i class="bi bi-plus-circle-fill me-2" style="font-size: 1.2rem;"></i>
+                <div>
+                    <div class="fw-bold">เพิ่มการ์ตูน</div>
+                    <small>สร้างคอลเลกชันใหม่</small>
+                </div>
             </a>
-            <a asp-action="GroupedByCategory" class="btn btn-info btn-lg">
-                <i class="bi bi-collection me-2"></i>View by Category
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="GroupedByCategory" class="btn gradient-success w-100 py-3 card-hover">
+                <i class="bi bi-collection-fill me-2" style="font-size: 1.2rem;"></i>
+                <div>
+                    <div class="fw-bold">จัดกลุ่ศมวดหมู่</div>
+                    <small>ดูตามประเภท</small>
+                </div>
             </a>
-            <a asp-action="Statistics" class="btn btn-warning btn-lg">
-                <i class="bi bi-graph-up me-2"></i>Statistics
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="Statistics" class="btn gradient-warning w-100 py-3 card-hover">
+                <i class="bi bi-graph-up-arrow me-2" style="font-size: 1.2rem;"></i>
+                <div>
+                    <div class="fw-bold">สถิติและรายงาน</div>
+                    <small>วิเคราะห์ข้อมูล</small>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <a href="@Url.Action("Index")" class="btn gradient-secondary w-100 py-3 card-hover">
+                <i class="bi bi-arrow-clockwise me-2" style="font-size: 1.2rem;"></i>
+                <div>
+                    <div class="fw-bold">รีเซ็ตทั้งหมด</div>
+                    <small>เริ่มต้นใหม่</small>
+                </div>
             </a>
         </div>
     </div>
 </div>
+
+<style>
+    .glass-input:focus {
+        background: rgba(255,255,255,0.2) !important;
+        border-color: rgba(255,255,255,0.4) !important;
+        box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25) !important;
+        color: white !important;
+    }
+    
+    .glass-input::placeholder {
+        color: rgba(255,255,255,0.6) !important;
+    }
+    
+    .btn.active {
+        background: rgba(255,255,255,0.3) !important;
+        border-color: rgba(255,255,255,0.5) !important;
+    }
+</style>
