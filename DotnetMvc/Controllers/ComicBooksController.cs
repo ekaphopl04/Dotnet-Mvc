@@ -159,7 +159,7 @@ namespace DotnetMvc.Controllers
         // GET: ComicBooks/Statistics - Example of Aggregation with EF Core
         public async Task<IActionResult> Statistics()
         {
-            var stats = new
+            var stats = new StatisticsViewModel
             {
                 TotalComics = await _context.ComicBooks.CountAsync(),
                 AvailableComics = await _context.ComicBooks.CountAsync(c => c.IsAvailable),
@@ -168,8 +168,9 @@ namespace DotnetMvc.Controllers
                 MostExpensive = await _context.ComicBooks.MaxAsync(c => c.Price),
                 Cheapest = await _context.ComicBooks.MinAsync(c => c.Price),
                 CategoryStats = await _context.Categories
-                    .Select(cat => new
+                    .Select(cat => new CategoryStatistic
                     {
+                        CategoryId = cat.Id,
                         CategoryName = cat.Name,
                         ComicCount = cat.ComicBooks.Count(),
                         AveragePrice = cat.ComicBooks.Any() ? cat.ComicBooks.Average(c => c.Price) : 0
@@ -178,7 +179,7 @@ namespace DotnetMvc.Controllers
                 RecentComics = await _context.ComicBooks
                     .OrderByDescending(c => c.CreatedDate)
                     .Take(5)
-                    .Select(c => new { c.Title, c.Author, c.CreatedDate })
+                    .Select(c => new RecentComic { Title = c.Title, Author = c.Author, CreatedDate = c.CreatedDate })
                     .ToListAsync()
             };
 
