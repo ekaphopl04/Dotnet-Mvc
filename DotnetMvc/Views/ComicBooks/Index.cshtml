@@ -99,9 +99,18 @@
                                 <option value="">All Categories</option>
                                 @foreach (var category in ViewData["Categories"] as SelectList)
                                 {
-                                    <option value="@category.Value" @(category.Value == ViewData["CurrentCategory"]?.ToString() ? "selected" : "")>
-                                        @category.Text
-                                    </option>
+                                    @if (category.Value == ViewData["CurrentCategory"]?.ToString())
+                                    {
+                                        <option value="@category.Value" selected>
+                                            @category.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.Value">
+                                            @category.Text
+                                        </option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -134,14 +143,80 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
                             <select class="form-select" id="sortOrder" name="sortOrder">
-                                <option value="" @(ViewData["CurrentSort"]?.ToString() == "" ? "selected" : "")>📚 Title (A-Z)</option>
-                                <option value="title_desc" @(ViewData["CurrentSort"]?.ToString() == "title_desc" ? "selected" : "")>📚 Title (Z-A)</option>
-                                <option value="Author" @(ViewData["CurrentSort"]?.ToString() == "Author" ? "selected" : "")>✍️ Author (A-Z)</option>
-                                <option value="author_desc" @(ViewData["CurrentSort"]?.ToString() == "author_desc" ? "selected" : "")>✍️ Author (Z-A)</option>
-                                <option value="Price" @(ViewData["CurrentSort"]?.ToString() == "Price" ? "selected" : "")>💰 Price (Low-High)</option>
-                                <option value="price_desc" @(ViewData["CurrentSort"]?.ToString() == "price_desc" ? "selected" : "")>💰 Price (High-Low)</option>
-                                <option value="Date" @(ViewData["CurrentSort"]?.ToString() == "Date" ? "selected" : "")>📅 Date (Old-New)</option>
-                                <option value="date_desc" @(ViewData["CurrentSort"]?.ToString() == "date_desc" ? "selected" : "")>📅 Date (New-Old)</option>
+                                @{
+                                    var currentSort = ViewData["CurrentSort"]?.ToString();
+                                }
+                                @if (string.IsNullOrEmpty(currentSort))
+                                {
+                                    <option value="" selected>📚 Title (A-Z)</option>
+                                }
+                                else
+                                {
+                                    <option value="">📚 Title (A-Z)</option>
+                                }
+                                
+                                @if (currentSort == "title_desc")
+                                {
+                                    <option value="title_desc" selected>📚 Title (Z-A)</option>
+                                }
+                                else
+                                {
+                                    <option value="title_desc">📚 Title (Z-A)</option>
+                                }
+                                
+                                @if (currentSort == "Author")
+                                {
+                                    <option value="Author" selected>✍️ Author (A-Z)</option>
+                                }
+                                else
+                                {
+                                    <option value="Author">✍️ Author (A-Z)</option>
+                                }
+                                
+                                @if (currentSort == "author_desc")
+                                {
+                                    <option value="author_desc" selected>✍️ Author (Z-A)</option>
+                                }
+                                else
+                                {
+                                    <option value="author_desc">✍️ Author (Z-A)</option>
+                                }
+                                
+                                @if (currentSort == "Price")
+                                {
+                                    <option value="Price" selected>💰 Price (Low-High)</option>
+                                }
+                                else
+                                {
+                                    <option value="Price">💰 Price (Low-High)</option>
+                                }
+                                
+                                @if (currentSort == "price_desc")
+                                {
+                                    <option value="price_desc" selected>💰 Price (High-Low)</option>
+                                }
+                                else
+                                {
+                                    <option value="price_desc">💰 Price (High-Low)</option>
+                                }
+                                
+                                @if (currentSort == "Date")
+                                {
+                                    <option value="Date" selected>📅 Date (Old-New)</option>
+                                }
+                                else
+                                {
+                                    <option value="Date">📅 Date (Old-New)</option>
+                                }
+                                
+                                @if (currentSort == "date_desc")
+                                {
+                                    <option value="date_desc" selected>📅 Date (New-Old)</option>
+                                }
+                                else
+                                {
+                                    <option value="date_desc">📅 Date (New-Old)</option>
+                                }
                             </select>
                         </div>
                     </div>
