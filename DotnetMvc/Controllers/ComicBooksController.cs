@@ -83,7 +83,7 @@ namespace DotnetMvc.Controllers
         // POST: ComicBooks/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Author,Artist,IssueNumber,PublicationDate,PageCount,Price,IsAvailable,CoverImageUrl,CategoryId")] ComicBook comicBook)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Author,Artist,PublicationDate,PageCount,Price,IsAvailable,CoverImageUrl,CategoryId")] ComicBook comicBook)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +116,7 @@ namespace DotnetMvc.Controllers
         // POST: ComicBooks/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Author,Artist,IssueNumber,PublicationDate,PageCount,Price,IsAvailable,CoverImageUrl,CategoryId,CreatedDate")] ComicBook comicBook)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Author,Artist,PublicationDate,PageCount,Price,IsAvailable,CoverImageUrl,CategoryId,CreatedDate")] ComicBook comicBook)
         {
             if (id != comicBook.Id)
             {

@@ -22,9 +22,6 @@ namespace DotnetMvc.Models
         [StringLength(100)]
         public string Artist { get; set; }
         
-        [Required]
-        public int IssueNumber { get; set; }
-        
         [DataType(DataType.Date)]
         public DateTime PublicationDate { get; set; }
         
