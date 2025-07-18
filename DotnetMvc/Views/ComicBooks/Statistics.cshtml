@@ -1,0 +1,284 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Comic Books Statistics";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-graph-up"></i> Comic Books Statistics</h1>
+        <div class="btn-group">
+            <a asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-list"></i> Back to List
+            </a>
+            <a asp-action="GroupedByCategory" class="btn btn-info">
+                <i class="bi bi-collection"></i> View by Category
+            </a>
+            <a asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add New Comic
+            </a>
+        </div>
+    </div>
+
+    <p class="text-muted mb-4">
+        This view demonstrates <strong>EF Core Aggregation</strong> functions including Count(), Sum(), Average(), Min(), and Max() operations.
+    </p>
+
+    <!-- Overall Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-book display-4 mb-2"></i>
+                    <h2 class="mb-0">@Model.TotalComics</h2>
+                    <p class="mb-0">Total Comics</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle display-4 mb-2"></i>
+                    <h2 class="mb-0">@Model.AvailableComics</h2>
+                    <p class="mb-0">Available Comics</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-currency-dollar display-4 mb-2"></i>
+                    <h2 class="mb-0">@Model.TotalValue.ToString("C")</h2>
+                    <p class="mb-0">Total Collection Value</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-calculator display-4 mb-2"></i>
+                    <h2 class="mb-0">@Model.AveragePrice.ToString("C")</h2>
+                    <p class="mb-0">Average Price</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Range Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-arrow-down-circle"></i> Lowest Priced Comic</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="text-success mb-0">@Model.Cheapest.ToString("C")</h3>
+                            <p class="text-muted mb-0">Most affordable option</p>
+                        </div>
+                        <i class="bi bi-arrow-down-circle display-4 text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-arrow-up-circle"></i> Highest Priced Comic</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="text-danger mb-0">@Model.MostExpensive.ToString("C")</h3>
+                            <p class="text-muted mb-0">Premium collection item</p>
+                        </div>
+                        <i class="bi bi-arrow-up-circle display-4 text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Statistics -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Statistics by Category</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.CategoryStats != null && ((IEnumerable<dynamic>)Model.CategoryStats).Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th class="text-center">Comic Count</th>
+                                        <th class="text-center">Average Price</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var category in Model.CategoryStats)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-secondary">@category.CategoryName</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="fw-bold">@category.ComicCount</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-success fw-bold">@category.AveragePrice.ToString("C")</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <a asp-action="Index" asp-route-categoryId="@category.CategoryId" class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-eye"></i> View Comics
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No category statistics available.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Comics -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Recently Added Comics</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentComics != null && ((IEnumerable<dynamic>)Model.RecentComics).Any())
+                    {
+                        <div class="row">
+                            @foreach (var comic in Model.RecentComics)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-left-primary">
+                                        <div class="card-body">
+                                            <h6 class="card-title">@comic.Title</h6>
+                                            <p class="card-text text-muted">by @comic.Author</p>
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar"></i> Added @comic.CreatedDate.ToString("MMM d, yyyy")
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No recent comics found.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Availability Chart -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="bi bi-pie-chart-fill"></i> Availability Overview</h6>
+                </div>
+                <div class="card-body text-center">
+                    @{
+                        var availablePercentage = Model.TotalComics > 0 ? (double)Model.AvailableComics / Model.TotalComics * 100 : 0;
+                        var unavailableCount = Model.TotalComics - Model.AvailableComics;
+                        var unavailablePercentage = 100 - availablePercentage;
+                    }
+                    
+                    <div class="progress mb-3" style="height: 30px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: @availablePercentage%" aria-valuenow="@availablePercentage" aria-valuemin="0" aria-valuemax="100">
+                            @availablePercentage.ToString("F1")% Available
+                        </div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: @unavailablePercentage%" aria-valuenow="@unavailablePercentage" aria-valuemin="0" aria-valuemax="100">
+                            @unavailablePercentage.ToString("F1")% Unavailable
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <h4 class="text-success">@Model.AvailableComics</h4>
+                            <small class="text-muted">Available</small>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="text-danger">@unavailableCount</h4>
+                            <small class="text-muted">Unavailable</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Index" asp-route-isAvailable="true" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> View Available Comics (@Model.AvailableComics)
+                        </a>
+                        <a asp-action="Index" asp-route-isAvailable="false" class="btn btn-danger">
+                            <i class="bi bi-x-circle"></i> View Unavailable Comics (@unavailableCount)
+                        </a>
+                        <a asp-action="Index" asp-route-sortOrder="price_desc" class="btn btn-warning">
+                            <i class="bi bi-arrow-up"></i> View Most Expensive First
+                        </a>
+                        <a asp-action="Index" asp-route-sortOrder="date_desc" class="btn btn-info">
+                            <i class="bi bi-clock"></i> View Recently Added
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EF Core Code Example -->
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0"><i class="bi bi-code-slash"></i> EF Core Aggregation Code Example</h5>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">This statistics view uses various EF Core aggregation functions:</p>
+            <pre class="bg-light p-3 rounded"><code>var stats = new
+{
+    TotalComics = await _context.ComicBooks.CountAsync(),
+    AvailableComics = await _context.ComicBooks.CountAsync(c => c.IsAvailable),
+    TotalValue = await _context.ComicBooks.SumAsync(c => c.Price),
+    AveragePrice = await _context.ComicBooks.AverageAsync(c => c.Price),
+    MostExpensive = await _context.ComicBooks.MaxAsync(c => c.Price),
+    Cheapest = await _context.ComicBooks.MinAsync(c => c.Price),
+    CategoryStats = await _context.Categories
+        .Select(cat => new
+        {
+            CategoryName = cat.Name,
+            ComicCount = cat.ComicBooks.Count(),
+            AveragePrice = cat.ComicBooks.Any() ? cat.ComicBooks.Average(c => c.Price) : 0
+        })
+        .ToListAsync(),
+    RecentComics = await _context.ComicBooks
+        .OrderByDescending(c => c.CreatedDate)
+        .Take(5)
+        .Select(c => new { c.Title, c.Author, c.CreatedDate })
+        .ToListAsync()
+};</code></pre>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Comics Grouped by Category";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-collection"></i> Comics Grouped by Category</h1>
+        <div class="btn-group">
+            <a asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-list"></i> Back to List
+            </a>
+            <a asp-action="Statistics" class="btn btn-warning">
+                <i class="bi bi-graph-up"></i> Statistics
+            </a>
+            <a asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add New Comic
+            </a>
+        </div>
+    </div>
+
+    <p class="text-muted mb-4">
+        This view demonstrates <strong>EF Core Grouping</strong> functionality with aggregation functions like Count(), Average(), Sum(), Min(), and Max().
+    </p>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <h4><i class="bi bi-info-circle"></i> No comic books found</h4>
+            <p>Add some comic books to see grouping in action.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var group in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="bi bi-tag"></i> @group.CategoryName
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center mb-3">
+                                <div class="col-6">
+                                    <div class="border-end">
+                                        <h3 class="text-primary mb-0">@group.ComicCount</h3>
+                                        <small class="text-muted">Comics</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h3 class="text-success mb-0">@group.TotalValue.ToString("C")</h3>
+                                    <small class="text-muted">Total Value</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="bi bi-calculator"></i> Average Price:</span>
+                                    <strong class="text-info">@group.AveragePrice.ToString("C")</strong>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="bi bi-arrow-down-circle"></i> Lowest Price:</span>
+                                    <strong class="text-success">@group.MinPrice.ToString("C")</strong>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="bi bi-arrow-up-circle"></i> Highest Price:</span>
+                                    <strong class="text-danger">@group.MaxPrice.ToString("C")</strong>
+                                </div>
+                            </div>
+                            
+                            <h6 class="border-bottom pb-2">Comics in this category:</h6>
+                            <div class="comics-list" style="max-height: 200px; overflow-y: auto;">
+                                @foreach (var comic in group.Comics)
+                                {
+                                    <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
+                                        <div>
+                                            <small class="fw-bold">@comic.Title</small>
+                                            <br>
+                                            <small class="text-muted">by @comic.Author</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-success fw-bold">@comic.Price.ToString("C")</small>
+                                            <br>
+                                            <div class="btn-group btn-group-sm">
+                                                <a asp-action="Details" asp-route-id="@comic.Id" class="btn btn-outline-info btn-sm" title="View Details">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a asp-action="Edit" asp-route-id="@comic.Id" class="btn btn-outline-warning btn-sm" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Index" asp-route-categoryId="@group.CategoryId" class="btn btn-outline-primary btn-sm w-100">
+                                <i class="bi bi-filter"></i> View All @group.CategoryName Comics
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- EF Core Code Example -->
+    <div class="card mt-5">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0"><i class="bi bi-code-slash"></i> EF Core Grouping Code Example</h5>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">This view uses the following EF Core LINQ query with grouping and aggregation:</p>
+            <pre class="bg-light p-3 rounded"><code>var groupedComics = await _context.ComicBooks
+    .Include(c => c.Category)
+    .GroupBy(c => new { c.CategoryId, c.Category.Name })
+    .Select(g => new
+    {
+        CategoryId = g.Key.CategoryId,
+        CategoryName = g.Key.Name,
+        ComicCount = g.Count(),                    // COUNT aggregation
+        AveragePrice = g.Average(c => c.Price),    // AVERAGE aggregation
+        TotalValue = g.Sum(c => c.Price),          // SUM aggregation
+        MinPrice = g.Min(c => c.Price),            // MIN aggregation
+        MaxPrice = g.Max(c => c.Price),            // MAX aggregation
+        Comics = g.OrderBy(c => c.Title).ToList()
+    })
+    .OrderBy(g => g.CategoryName)
+    .ToListAsync();</code></pre>
+        </div>
+    </div>
+</div>
