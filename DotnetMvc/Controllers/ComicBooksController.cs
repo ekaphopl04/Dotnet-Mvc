@@ -20,11 +20,37 @@ namespace DotnetMvc.Controllers
         }
 
         // GET: ComicBooks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? categoryId)
         {
-            var comicBooks = await _context.ComicBooks
+            // Create a LINQ query to select comic books
+            var comicBooksQuery = _context.ComicBooks.AsQueryable();
+            
+            // Apply filtering based on search string
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                comicBooksQuery = comicBooksQuery.Where(c => 
+                    c.Title.Contains(searchString) || 
+                    c.Author.Contains(searchString) || 
+                    c.Description.Contains(searchString));
+            }
+            
+            // Apply filtering based on category
+            if (categoryId.HasValue)
+            {
+                comicBooksQuery = comicBooksQuery.Where(c => c.CategoryId == categoryId.Value);
+            }
+            
+            // Get categories for the filter dropdown
+            ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Name");
+            ViewData["CurrentSearch"] = searchString;
+            ViewData["CurrentCategory"] = categoryId;
+            
+            // Execute the query and return the results
+            var comicBooks = await comicBooksQuery
                 .Include("Category")
+                .OrderBy(c => c.Title)
                 .ToListAsync();
+                
             return View(comicBooks);
         }
 
@@ -158,6 +184,52 @@ namespace DotnetMvc.Controllers
         private bool ComicBookExists(int id)
         {
             return _context.ComicBooks.Any(e => e.Id == id);
+        }
+        
+        // GET: ComicBooks/Search
+        public IActionResult Search()
+        {
+            ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Name");
+            return View();
+        }
+        
+        // POST: ComicBooks/Search
+        [HttpPost]
+        public async Task<IActionResult> SearchResults(string searchTerm, int? categoryId, decimal? minPrice, decimal? maxPrice)
+        {
+            var query = _context.ComicBooks.AsQueryable();
+            
+            // Apply search filters
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(c => 
+                    c.Title.Contains(searchTerm) || 
+                    c.Author.Contains(searchTerm) || 
+                    c.Artist.Contains(searchTerm) || 
+                    c.Description.Contains(searchTerm));
+            }
+            
+            if (categoryId.HasValue)
+            {
+                query = query.Where(c => c.CategoryId == categoryId.Value);
+            }
+            
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.Price >= minPrice.Value);
+            }
+            
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.Price <= maxPrice.Value);
+            }
+            
+            var results = await query
+                .Include("Category")
+                .OrderBy(c => c.Title)
+                .ToListAsync();
+                
+            return View(results);
         }
     }
 }
