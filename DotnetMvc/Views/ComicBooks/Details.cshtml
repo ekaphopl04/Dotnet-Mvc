@@ -1,149 +1,156 @@
 @model DotnetMvc.Models.ComicBook
 
 @{
-    ViewData["Title"] = "Comic Book Details";
+    ViewData["Title"] = Model.Title + " - Details";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>@Model.Title</h1>
-                <div>
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
-                        <i class="bi bi-pencil"></i> Edit
+<!-- Hero Section -->
+<div class="hero-section rounded mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4 mb-2">
+                    <i class="bi bi-book me-3"></i>@Model.Title
+                </h1>
+                <p class="lead mb-0">by @Model.Author</p>
+                @if (!string.IsNullOrEmpty(Model.Artist))
+                {
+                    <p class="mb-0">Illustrated by @Model.Artist</p>
+                }
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="btn-group" role="group">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
+                        <i class="bi bi-pencil me-2"></i>Edit
                     </a>
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </a>
-                    <a asp-action="Index" class="btn btn-secondary">
-                        <i class="bi bi-arrow-left"></i> Back to List
+                    <a asp-action="Index" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-arrow-left me-2"></i>Back
                     </a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-lg-4">
+            <!-- Cover Image Card -->
+            <div class="card shadow-lg mb-4 card-hover">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-book"></i> Cover Image</h5>
+                    <h5 class="mb-0"><i class="bi bi-image me-2"></i>Cover Art</h5>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center p-4">
                     @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
                     {
-                        <img src="@Model.CoverImageUrl" class="img-fluid rounded shadow" alt="@Model.Title Cover" style="max-height: 400px;" />
+                        <img src="@Model.CoverImageUrl" alt="@Model.Title Cover" class="img-fluid rounded shadow-lg" style="max-height: 400px; border: 3px solid #dee2e6;" />
                     }
                     else
                     {
-                        <div class="bg-light p-5 rounded">
-                            <i class="bi bi-image display-1 text-muted"></i>
-                            <p class="text-muted mt-2">No Cover Image Available</p>
+                        <div class="bg-gradient rounded d-flex align-items-center justify-content-center shadow-sm" style="height: 400px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                            <div class="text-center">
+                                <i class="bi bi-book display-1 text-primary"></i>
+                                <p class="text-muted mt-3 fw-bold">No cover image available</p>
+                                <small class="text-muted">Add a cover image to enhance this comic's profile</small>
+                            </div>
                         </div>
                     }
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-lg-8">
+            <!-- Main Details Card -->
+            <div class="card shadow-lg mb-4 card-hover">
                 <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Comic Book Information</h5>
+                    <h4 class="mb-0"><i class="bi bi-info-circle-fill me-2"></i>Comic Information</h4>
                 </div>
                 <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-3">Title:</dt>
-                        <dd class="col-sm-9">@Model.Title</dd>
-                        
-                        <dt class="col-sm-3">Author:</dt>
-                        <dd class="col-sm-9">@Model.Author</dd>
-                        
-                        <dt class="col-sm-3">Artist:</dt>
-                        <dd class="col-sm-9">@Model.Artist</dd>
-                        
-                        <dt class="col-sm-3">Description:</dt>
-                        <dd class="col-sm-9">
-                            @if (!string.IsNullOrEmpty(Model.Description))
-                            {
-                                @Model.Description
-                            }
-                            else
-                            {
-                                <em class="text-muted">No description available</em>
-                            }
-                        </dd>
-                        
-                        <dt class="col-sm-3">Publication Date:</dt>
-                        <dd class="col-sm-9">
-                            @if (Model.PublicationDate.HasValue)
-                            {
-                                @Model.PublicationDate.Value.ToString("MMMM d, yyyy")
-                            }
-                            else
-                            {
-                                <em class="text-muted">Not specified</em>
-                            }
-                        </dd>
-                        
-                        <dt class="col-sm-3">Page Count:</dt>
-                        <dd class="col-sm-9">
-                            @if (Model.PageCount.HasValue)
-                            {
-                                @Model.PageCount.Value.ToString("N0") <text> pages</text>
-                            }
-                            else
-                            {
-                                <em class="text-muted">Not specified</em>
-                            }
-                        </dd>
-                        
-                        <dt class="col-sm-3">Price:</dt>
-                        <dd class="col-sm-9">
-                            <span class="h5 text-success">@Model.Price.ToString("C")</span>
-                        </dd>
-                        
-                        <dt class="col-sm-3">Category:</dt>
-                        <dd class="col-sm-9">
-                            <span class="badge bg-secondary">@ViewBag.CategoryName</span>
-                        </dd>
-                        
-                        <dt class="col-sm-3">Availability:</dt>
-                        <dd class="col-sm-9">
-                            @if (Model.IsAvailable)
-                            {
-                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Available</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Not Available</span>
-                            }
-                        </dd>
-                        
-                        <dt class="col-sm-3">Added On:</dt>
-                        <dd class="col-sm-9">
-                            <small class="text-muted">@Model.CreatedDate.ToString("MMMM d, yyyy 'at' h:mm tt")</small>
-                        </dd>
-                    </dl>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-book me-2"></i>Title:</label>
+                                <p class="fs-5 mb-0">@Model.Title</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-person me-2"></i>Author:</label>
+                                <p class="fs-5 mb-0">@Model.Author</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-palette me-2"></i>Artist:</label>
+                                <p class="fs-5 mb-0">@Model.Artist</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-currency-dollar me-2"></i>Price:</label>
+                                <p class="mb-0">
+                                    <span class="badge bg-success fs-5 px-3 py-2">@Model.Price.ToString("C")</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-collection me-2"></i>Category:</label>
+                                <p class="mb-0">
+                                    @if (Model.Category != null)
+                                    {
+                                        <span class="badge bg-primary fs-6 px-3 py-2">@Model.Category.Name</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic">No category assigned</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <label class="fw-bold text-primary"><i class="bi bi-check-circle me-2"></i>Availability:</label>
+                                <p class="mb-0">
+                                    @if (Model.IsAvailable)
+                                    {
+                                        <span class="badge bg-success fs-6 px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i>Available</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger fs-6 px-3 py-2"><i class="bi bi-x-circle-fill me-1"></i>Unavailable</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Additional Actions Card -->
-            <div class="card mt-3">
+            <!-- Quick Actions Card -->
+            <div class="card shadow-lg card-hover">
                 <div class="card-header bg-success text-white">
-                    <h6 class="mb-0"><i class="bi bi-gear"></i> Actions</h6>
+                    <h5 class="mb-0"><i class="bi bi-lightning-fill me-2"></i>Quick Actions</h5>
                 </div>
                 <div class="card-body">
-                    <div class="btn-group w-100" role="group">
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
-                            <i class="bi bi-pencil"></i> Edit Details
+                    <div class="d-grid gap-3">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Comic
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-lg">
+                            <i class="bi bi-trash3 me-2"></i>Delete Comic
+                        </a>
+                        <hr>
+                        <a asp-action="Create" class="btn btn-success">
+                            <i class="bi bi-plus-circle me-2"></i>Add New Comic
                         </a>
                         <a asp-action="Index" class="btn btn-outline-primary">
-                            <i class="bi bi-list"></i> View All Comics
+                            <i class="bi bi-collection me-2"></i>View All Comics
                         </a>
-                        <a asp-action="Create" class="btn btn-outline-success">
-                            <i class="bi bi-plus"></i> Add New Comic
-                        </a>
+                        @if (Model.Category != null)
+                        {
+                            <a asp-action="Index" asp-route-categoryId="@Model.CategoryId" class="btn btn-outline-info">
+                                <i class="bi bi-funnel me-2"></i>More in @Model.Category.Name
+                            </a>
+                        }
                     </div>
                 </div>
             </div>
