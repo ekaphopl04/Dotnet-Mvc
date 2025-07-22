@@ -1,0 +1,327 @@
+@{
+    ViewData["Title"] = "Test API Features";
+}
+
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">🚀 Test API Features - ทดสอบฟีเจอร์ API</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>📋 API Feature Tests</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>1. Action Return Types - ประเภทการ Return ข้อมูล</h6>
+                        <button class="btn btn-outline-primary btn-sm" onclick="testReturnTypes()">Test Return Types</button>
+                        <small class="text-muted d-block">ทดสอบการใช้ ActionResult&lt;T&gt; และการ return ข้อมูลแบบต่างๆ</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>2. JSON Patch Requests - การอัพเดทข้อมูลบางส่วน</h6>
+                        <div class="input-group mb-2">
+                            <input type="number" id="patchId" class="form-control" placeholder="Item ID" value="1">
+                            <button class="btn btn-outline-warning" onclick="testJsonPatch()">Test JSON Patch</button>
+                        </div>
+                        <small class="text-muted">ทดสอบการอัพเดทข้อมูลบางส่วนด้วย JSON Patch</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>3. Format Response Data - การจัดรูปแบบข้อมูล</h6>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-info btn-sm" onclick="testFormatResponse('standard')">Standard</button>
+                            <button class="btn btn-outline-info btn-sm" onclick="testFormatResponse('minimal')">Minimal</button>
+                            <button class="btn btn-outline-info btn-sm" onclick="testFormatResponse('detailed')">Detailed</button>
+                            <button class="btn btn-outline-info btn-sm" onclick="testFormatResponse('xml')">XML</button>
+                        </div>
+                        <small class="text-muted d-block">ทดสอบการจัดรูปแบบข้อมูลแบบต่างๆ</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>4. Error Handling - การจัดการข้อผิดพลาด</h6>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-danger btn-sm" onclick="testErrorHandling('validation')">Validation</button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="testErrorHandling('notfound')">Not Found</button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="testErrorHandling('unauthorized')">Unauthorized</button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="testErrorHandling('exception')">Exception</button>
+                        </div>
+                        <small class="text-muted d-block">ทดสอบการจัดการข้อผิดพลาดแบบต่างๆ</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>5. Custom Formatters - การจัดรูปแบบแบบกำหนดเอง</h6>
+                        <button class="btn btn-outline-success btn-sm" onclick="testCustomFormat()">Test Custom Format</button>
+                        <small class="text-muted d-block">ทดสอบการจัดรูปแบบข้อมูลแบบกำหนดเอง</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>6. Create New Item - สร้างข้อมูลใหม่</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" id="itemName" class="form-control mb-2" placeholder="Item Name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="itemDesc" class="form-control mb-2" placeholder="Description">
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-success btn-sm" onclick="testCreateItem()">Create Item</button>
+                        <small class="text-muted d-block">ทดสอบการสร้างข้อมูลใหม่พร้อม Validation</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>7. Get All Items - ดึงข้อมูลทั้งหมด</h6>
+                        <div class="input-group">
+                            <input type="number" id="pageNum" class="form-control" placeholder="Page" value="1">
+                            <input type="number" id="pageSize" class="form-control" placeholder="Page Size" value="10">
+                            <button class="btn btn-outline-primary" onclick="testGetAll()">Get All</button>
+                        </div>
+                        <small class="text-muted">ทดสอบการดึงข้อมูลทั้งหมดพร้อม Pagination</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>📊 API Response - ผลลัพธ์จาก API</h5>
+                </div>
+                <div class="card-body">
+                    <div id="loading" class="text-center" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">กำลังเรียก API...</p>
+                    </div>
+                    <pre id="apiResponse" class="bg-light p-3" style="max-height: 500px; overflow-y: auto;">
+คลิกปุ่มใดปุ่มหนึ่งเพื่อทดสอบ API Features
+
+Click any button above to test API features
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5>📚 API Documentation - เอกสารประกอบ API</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>🔧 Available Endpoints:</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi/return-types</code>
+                                    <br><small class="text-muted">ทดสอบ Action Return Types</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>PATCH /api/testapi/json-patch/{id}</code>
+                                    <br><small class="text-muted">ทดสอบ JSON Patch requests</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi/formatted-response</code>
+                                    <br><small class="text-muted">ทดสอบการจัดรูปแบบข้อมูล</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi/error-handling/{type}</code>
+                                    <br><small class="text-muted">ทดสอบการจัดการข้อผิดพลาด</small>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>📋 More Endpoints:</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi/custom-format</code>
+                                    <br><small class="text-muted">ทดสอบ Custom Formatters</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>POST /api/testapi/create</code>
+                                    <br><small class="text-muted">สร้างข้อมูลใหม่</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi/{id}</code>
+                                    <br><small class="text-muted">ดึงข้อมูลตาม ID</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <code>GET /api/testapi</code>
+                                    <br><small class="text-muted">ดึงข้อมูลทั้งหมดพร้อม Pagination</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const apiBase = '/api/testapi';
+    const responseElement = document.getElementById('apiResponse');
+    const loadingElement = document.getElementById('loading');
+
+    function showLoading() {
+        loadingElement.style.display = 'block';
+        responseElement.style.display = 'none';
+    }
+
+    function hideLoading() {
+        loadingElement.style.display = 'none';
+        responseElement.style.display = 'block';
+    }
+
+    function displayResponse(data, status = 200) {
+        const timestamp = new Date().toLocaleString('th-TH');
+        const statusText = status >= 200 && status < 300 ? '✅ SUCCESS' : '❌ ERROR';
+        
+        responseElement.innerHTML = `[${timestamp}] ${statusText} (${status})
+        
+${JSON.stringify(data, null, 2)}`;
+        hideLoading();
+    }
+
+    async function makeApiCall(url, options = {}) {
+        showLoading();
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                ...options
+            });
+            
+            const data = await response.json();
+            displayResponse(data, response.status);
+        } catch (error) {
+            displayResponse({
+                error: error.message,
+                message: 'เกิดข้อผิดพลาดในการเรียก API'
+            }, 500);
+        }
+    }
+
+    // 1. Test Return Types
+    function testReturnTypes() {
+        makeApiCall(`${apiBase}/return-types`);
+    }
+
+    // 2. Test JSON Patch
+    function testJsonPatch() {
+        const id = document.getElementById('patchId').value || 1;
+        const patchData = [
+            {
+                "op": "replace",
+                "path": "/name",
+                "value": "Updated Name via JSON Patch"
+            },
+            {
+                "op": "replace", 
+                "path": "/description",
+                "value": "อัพเดทด้วย JSON Patch"
+            }
+        ];
+
+        makeApiCall(`${apiBase}/json-patch/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(patchData),
+            headers: {
+                'Content-Type': 'application/json-patch+json'
+            }
+        });
+    }
+
+    // 3. Test Format Response
+    function testFormatResponse(format) {
+        makeApiCall(`${apiBase}/formatted-response?format=${format}`);
+    }
+
+    // 4. Test Error Handling
+    function testErrorHandling(type) {
+        makeApiCall(`${apiBase}/error-handling/${type}`);
+    }
+
+    // 5. Test Custom Format
+    function testCustomFormat() {
+        makeApiCall(`${apiBase}/custom-format`);
+    }
+
+    // 6. Test Create Item
+    function testCreateItem() {
+        const name = document.getElementById('itemName').value || 'Test Item';
+        const description = document.getElementById('itemDesc').value || 'Test Description';
+        
+        const newItem = {
+            name: name,
+            description: description,
+            isActive: true
+        };
+
+        makeApiCall(`${apiBase}/create`, {
+            method: 'POST',
+            body: JSON.stringify(newItem)
+        });
+    }
+
+    // 7. Test Get All
+    function testGetAll() {
+        const page = document.getElementById('pageNum').value || 1;
+        const pageSize = document.getElementById('pageSize').value || 10;
+        
+        makeApiCall(`${apiBase}?page=${page}&pageSize=${pageSize}`);
+    }
+
+    // Initialize with a welcome message
+    document.addEventListener('DOMContentLoaded', function() {
+        displayResponse({
+            message: "🎉 ยินดีต้อนรับสู่ API Test Page",
+            description: "คลิกปุ่มต่างๆ เพื่อทดสอบฟีเจอร์ API ทั้งหมด",
+            features: [
+                "Action Return Types",
+                "JSON Patch Requests", 
+                "Format Response Data",
+                "Error Handling",
+                "Custom Formatters",
+                "Data Validation",
+                "Pagination"
+            ],
+            timestamp: new Date().toISOString()
+        });
+    });
+</script>
+
+<style>
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-bottom: 20px;
+    }
+    
+    .btn-group .btn {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    
+    pre {
+        font-size: 12px;
+        border-radius: 5px;
+    }
+    
+    .list-group-item {
+        border: none;
+        padding: 8px 0;
+    }
+    
+    .list-group-item code {
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 11px;
+    }
+</style>

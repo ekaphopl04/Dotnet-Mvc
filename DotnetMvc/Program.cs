@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(); // Add Newtonsoft.Json for JSON Patch support
+
+// Add API Explorer services for better API documentation
+builder.Services.AddEndpointsApiExplorer();
 
 // Add Entity Framework Core services
 builder.Services.AddDbContext<DotnetMvc.Data.ApplicationDbContext>(options =>
